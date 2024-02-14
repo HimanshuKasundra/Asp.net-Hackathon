@@ -1,0 +1,124 @@
+﻿@using TBB_01_AccountGroup.CF;
+@using TBB_01_AccountGroup.BAL;
+@model TBB_01_AccountGroup.Areas.ACC.Models.ACC_AccountGroupModel;
+
+<div class="row g-mb-20">
+    <div class="col-md-12" id="divBranchList">
+        <form id="filterForm" class="filter-form" data-ajax="true" data-ajax-method="post" data-ajax-mode="replace"
+              data-ajax-update="#SearchResult" data-ajax-success="OnSuccess(this.id,data, status, xhr);"
+              data-ajax-failure="OnFailure(xhr, status, error);" asp-action="_SearchResult" asp-controller="ACC_AccountGroup"
+              asp-area="ACC">
+            @Html.AntiForgeryToken()
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.F_AccountGroupName)
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <input type="text" asp-for="F_AccountGroupName" class="form-control" />
+                            @Html.ValidationMessageFor(m => m.F_AccountGroupName, "", new { @class = "form-text text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.F_AccountGroupPrintName)
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <input type="text" asp-for="F_AccountGroupPrintName" class="form-control" />
+                            @Html.ValidationMessageFor(m => m.F_AccountGroupPrintName, "", new { @class = "form-text text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.F_BalanceSheetName)
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <input type="text" asp-for="F_BalanceSheetName" class="form-control" />
+                            @Html.ValidationMessageFor(m => m.F_BalanceSheetName, "", new { @class = "form-text text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.F_ParentAccountID)
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <select class="form-control" data-control="select2" asp-for="F_ParentAccountID"
+                                    asp-items="@(new SelectList(ViewBag.GetAccountGroupList,"TopAccountGroupID","AccountGroupName"))">
+                                <option value="">Select Parent Account ID</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.F_ParentAccountID, "", new { @class = "form-text text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.F_TopAccountID)
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <select class="form-control" data-control="select2" asp-for="F_TopAccountID"
+                                    asp-items="@(new SelectList(ViewBag.GetAccountGroupList,"TopAccountGroupID","AccountGroupName"))">
+                                <option value="">Select Top Account ID</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.F_TopAccountID, "", new { @class = "form-text text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.F_RelativeAccountID)
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <select class="form-control" data-control="select2" asp-for="F_RelativeAccountID"
+                                    asp-items="@(new SelectList(ViewBag.GetAccountGroupList,"TopAccountGroupID","AccountGroupName"))">
+                                <option value="">Select Relative Account ID</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.F_RelativeAccountID, "", new { @class = "form-text text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.F_ReportTypeID)
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <select class="form-control" data-control="select2" asp-for="F_ReportTypeID"
+                                    asp-items="@(new SelectList(ViewBag.ReportTypeList,"Value","DisplayName"))">
+                                <option value="">Select Report Type</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.F_ReportTypeID, "", new { @class = "form-text text-danger" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        @Html.LabelFor(x => x.F_AccountInID)
+                        <div class="input-group flex-nowrap">
+                            <span class="input-group-text"><i class="fa fa-search"></i></span>
+                            <select class="form-control" data-control="select2" asp-for="F_AccountInID"
+                                    asp-items="@(new SelectList(ViewBag.AccountInList,"Value","DisplayName"))">
+                                <option value="">Select Account In ID</option>
+                            </select>
+                            @Html.ValidationMessageFor(m => m.F_AccountInID, "", new { @class = "form-text text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label class="">&nbsp;</label>
+                    <div>
+                        <input class="btn btn-primary btn-action-search" type="submit" value="Show" name="btnShow"
+                               id="btnShow" />
+                        <input type="reset" value="Reset" class="btn btn-light btn-action-reset" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>

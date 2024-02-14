@@ -1,0 +1,207 @@
+﻿@model TBB_01_AccountGroup.Areas.ACC.Models.ACC_AccountGroupModel;
+@{
+    ViewData["Title"] = "ACC_AccountGroupAddEdit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--begin::Toolbar-->
+<div id="kt_app_toolbar" class="app-toolbar py-3 py-lg-6">
+    <!--begin::Toolbar container-->
+    <div id="kt_app_toolbar_container" class="app-container container-fluid d-flex flex-stack">
+        <!--begin::Page title-->
+        <div class="page-title d-flex flex-column justify-content-center flex-wrap me-3">
+            <!--begin::Title-->
+            <h1 class="page-heading d-flex text-dark fw-bold fs-3 flex-column justify-content-center my-0">Account Group</h1>
+            <!--end::Title-->
+            <!--begin::Breadcrumb-->
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-0 pt-1">
+                <!--begin::Item-->
+                <li class="breadcrumb-item text-muted">
+                    <a asp-controller="Home" asp-action="Index" class="text-muted text-hover-primary"><i class="bi bi-house"></i> Home</a>
+                </li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                </li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item fw-bolder">
+                    <a asp-controller="ACC_AccountGroup" asp-action="Index" class="text-muted text-hover-primary">Account Group</a>
+                </li>
+                <!--end::Item--><!--begin::Item-->
+                <li class="breadcrumb-item">
+                    <span class="bullet bg-gray-400 w-5px h-2px"></span>
+                </li>
+                <!--end::Item-->
+                <!--begin::Item-->
+                <li class="breadcrumb-item fw-bolder">
+                    @ViewBag.Action Account Group
+                </li>
+                <!--end::Item-->
+            </ul>
+            <!--end::Breadcrumb-->
+        </div>
+        <!--end::Page title-->
+    </div>
+    <!--end::Toolbar container-->
+</div>
+<!--end::Toolbar-->
+<!--begin::Content-->
+<div id="kt_app_content" class="app-content flex-column-fluid">
+    <!--begin::Content container-->
+    <div id="kt_app_content_container" class="app-container container-fluid">
+        <div class="card">
+            <div class="card-body p-5 px-lg-10 py-lg-7">
+                <h1 class="mb-10">@ViewBag.Action Account Group</h1>
+
+                <partial name="/Views/Error/_ucShowInfo.cshtml" />
+
+                <form method="post" asp-area="ACC" asp-action="_Save" asp-controller="ACC_AccountGroup" class="row g-3 needs-validation" novalidate>
+                    @Html.HiddenFor(x => x.AccountGroupID)
+                    @Html.AntiForgeryToken()
+
+                    <div class="row">
+
+                        <div class="fv-row mb-8 col-12 col-md-4">
+                            <span class="text-danger">*</span>@Html.LabelFor(x => x.AccountGroupName, htmlAttributes: new { @class = "form-label" })
+                            <div class="col-12 col-md-12 fv-row">
+                                <input asp-for="AccountGroupName" type="text" class="form-control form-control-solid" />
+                            </div>
+                            <span class="form-text text-danger" data-valmsg-for="AccountGroupName" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="fv-row mb-8 col-12 col-md-4">
+                            <span class="text-danger">*</span>@Html.LabelFor(x => x.AccountGroupPrintName, htmlAttributes: new { @class = "form-label" })
+                            <div class="col-12 col-md-12 fv-row">
+                                <input asp-for="AccountGroupPrintName" type="text" class="form-control form-control-solid" />
+                            </div>
+                            <span class="form-text text-danger" data-valmsg-for="AccountGroupPrintName" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="fv-row mb-8 col-12 col-md-6">
+                            @Html.LabelFor(x => x.ParentAccountGroupID, htmlAttributes: new { @class = "form-label" })
+                            <div class="col-12 col-md-12 fv-row">
+                                <select class="form-select form-select-solid" data-control="select2" asp-for="ParentAccountGroupID" asp-items="@(new SelectList(ViewBag.GetAccountGroupList,"TopAccountGroupID","AccountGroupName"))">
+                                    <option value="">Select Parent Account Name</option>
+                                </select>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="fv-row mb-8 col-12 col-md-6">
+                            @Html.LabelFor(x => x.TopAccountGroupID, htmlAttributes: new { @class = "form-label" })
+                            <div class="col-12 col-md-12 fv-row">
+                                <select class="form-select form-select-solid" data-control="select2" asp-for="TopAccountGroupID" asp-items="@(new SelectList(ViewBag.GetAccountGroupList,"TopAccountGroupID","AccountGroupName"))">
+                                    <option value="">Select Top Account Name</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="fv-row mb-8 col-12 col-md-4">
+                            <span class="text-danger">*</span>@Html.LabelFor(x => x.ReportType, htmlAttributes: new { @class = "form-label" })
+                            <div class="col-12 col-md-12 fv-row">
+                                <select class="form-select form-select-solid" data-control="select2" asp-for="ReportType" asp-items="@(new SelectList(ViewBag.ReportTypeList,"Value","DisplayName"))">
+                                    <option value="">Select ReportType </option>
+                                </select>
+                            </div>
+                            <span class="form-text text-danger" data-valmsg-for="ReportType" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="fv-row mb-8 col-12 col-md-4">
+                            <span class="text-danger">*</span>@Html.LabelFor(x => x.AccountIn, htmlAttributes: new { @class = "form-label" })
+                            <div class="col-12 col-md-12 fv-row">
+                                <select class="form-select form-select-solid" data-control="select2" asp-for="AccountIn" asp-items="@(new SelectList(ViewBag.AccountInList,"Value","DisplayName"))">
+                                    <option value="">Select Account In</option>
+                                </select>
+                            </div>
+                            <span class="form-text text-danger" data-valmsg-for="AccountIn" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row">
+                            <div class="fv-row mb-8 col-12 col-md-6">
+                                <span class="text-danger">*</span>@Html.LabelFor(x => x.BalanceOn, htmlAttributes: new { @class = "form-label" })
+                                <div class="col">
+                                    <div class="d-inline-block">
+                                        <label class="form-check form-check-inline">
+                                            <input asp-for="BalanceOn" class="form-check-input" type="radio" value="CR" />
+                                            <span class="form-check-label">CR</span>
+                                        </label>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        <label class="form-check form-check-inline">
+                                            <input asp-for="BalanceOn" class="form-check-input" type="radio" value="DR" />
+                                            <span class="form-check-label">DR</span>
+                                        </label>
+                                    </div>
+                                    <div class="d-inline-block">
+                                        <label class="form-check form-check-inline">
+                                            <input asp-for="BalanceOn" class="form-check-input" type="radio" value="none" />
+                                            <span class="form-check-label">None</span>
+                                        </label>
+                                    </div>
+                                    <!-- Add the checkbox here -->
+
+                                </div>
+                                <span class="form-text text-danger" data-valmsg-for="BalanceOn" data-valmsg-replace="true"></span>
+                                
+                            </div>
+                            <div class="fv-row mb-8 col-12 col-md-6">
+                                <span class="text-danger">*</span>@Html.LabelFor(x => x.IsEditable, htmlAttributes: new { @class = "form-label" })
+                                <div class="col">
+                                    <div class="d-inline-block ml-3 align-middle">
+                                        <label class="form-check form-check-inline">
+                                            <input asp-for="IsEditable" class="form-check-input" type="checkbox" />
+                                            <lable>Edit/Delete is not allowed for this Record</lable>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+
+
+
+                        <div class="fv-row mb-8 col-12 col-md-6">
+                            @Html.LabelFor(x => x.Remarks, htmlAttributes: new { @class = "form-label" })
+                            <div class="col-12 col-md-12 fv-row">
+                                <textarea asp-for="Remarks" class="form-control form-control-solid" rows="2" cols="5"></textarea>
+                            </div>
+                            <span class="form-text text-danger" data-valmsg-for="Remarks" data-valmsg-replace="true"></span>
+                        </div>
+                    </div>
+
+
+
+                    <div>
+                        @if (Model.AccountGroupID == 0)
+                        {
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                        }
+                        else
+                        {
+                            <input type="submit" value="Update" class="btn btn-primary" />
+
+                        }
+                        <a asp-area="ACC" asp-action="Index" asp-controller="ACC_AccountGroup" class="btn btn-secondary mx-2">Cancel</a>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--end::Content container-->
+</div>
+<!--end::Content-->
